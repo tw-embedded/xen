@@ -467,7 +467,7 @@ $(main-targets):
 endif
 
 .PHONY: _build
-_build: $(TARGET)$(CONFIG_XEN_INSTALL_SUFFIX)
+_build: $(TARGET)$(CONFIG_XEN_INSTALL_SUFFIX) _disassemble
 
 # Strip
 #
@@ -549,6 +549,11 @@ _uninstall:
 .PHONY: _debug
 _debug:
 	$(OBJDUMP) -D -S $(TARGET)-syms > $(TARGET).s
+
+.PHONY: _disassemble
+_disassemble:
+	$(info "dump asm file")
+	$(OBJDUMP) -S $(TARGET)-syms > $(TARGET).s
 
 .PHONY: _clean
 _clean:
