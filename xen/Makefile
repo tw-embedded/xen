@@ -467,7 +467,7 @@ $(main-targets):
 endif
 
 .PHONY: _build
-_build: $(TARGET)$(CONFIG_XEN_INSTALL_SUFFIX) _disassemble
+_build: $(TARGET)$(CONFIG_XEN_INSTALL_SUFFIX)
 
 # Strip
 #
@@ -517,6 +517,8 @@ _install: $(TARGET)$(CONFIG_XEN_INSTALL_SUFFIX)
 			echo 'EFI installation only partially done (EFI_VENDOR not set)' >&2; \
 		fi; \
 	fi
+	$(info "dump asm file")
+	$(OBJDUMP) -S $(TARGET)-syms > $(TARGET).s
 
 .PHONY: tests
 tests:
@@ -549,11 +551,6 @@ _uninstall:
 .PHONY: _debug
 _debug:
 	$(OBJDUMP) -D -S $(TARGET)-syms > $(TARGET).s
-
-.PHONY: _disassemble
-_disassemble:
-	$(info "dump asm file")
-	$(OBJDUMP) -S $(TARGET)-syms > $(TARGET).s
 
 .PHONY: _clean
 _clean:
